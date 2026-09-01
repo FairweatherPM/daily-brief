@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Morning Briefing — Sunday, August 30, 2026</title>
+<title>Morning Briefing — Tuesday, September 1, 2026</title>
 <style>
   :root, body.theme-parchment{
     --bg:#faf7f2; --card:#ffffff; --ink:#2b2620; --sub:#6b6255;
@@ -18,32 +18,49 @@
     --accent:#e0a978; --accent2:#7fc4ac; --rule:#3a3226; --quote-bg:#2a241c;
   }
   *{box-sizing:border-box}
+  html,body{height:100%}
   body{
     margin:0; background:var(--bg); color:var(--ink);
     font-family:Georgia,'Iowan Old Style','Palatino Linotype',serif;
-    line-height:1.65;
+    line-height:1.65; overflow:hidden;
   }
-  .wrap{max-width:760px; margin:0 auto; padding:48px 24px 96px}
-  header.masthead{text-align:center; margin-bottom:40px}
+  .ui{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+  header.masthead{
+    text-align:center; padding:16px 20px 12px; border-bottom:1px solid var(--rule);
+    position:relative; z-index:5; background:var(--bg);
+  }
   header.masthead .eyebrow{
-    font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;
-    letter-spacing:.14em; text-transform:uppercase; font-size:12px;
+    letter-spacing:.14em; text-transform:uppercase; font-size:11px;
     color:var(--accent2); font-weight:600;
   }
-  header.masthead h1{font-size:32px; margin:8px 0 4px; font-weight:600}
-  header.masthead .loc{color:var(--sub); font-size:14px; font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
-  .theme-switch{
-    display:flex; align-items:center; justify-content:center; gap:8px; margin-top:14px;
-  }
+  header.masthead h1{font-size:22px; margin:4px 0 2px; font-weight:600}
+  header.masthead .loc{color:var(--sub); font-size:13px}
+  .theme-switch{display:flex; align-items:center; justify-content:center; gap:8px; margin-top:10px}
   .theme-dot{
-    width:16px; height:16px; border-radius:50%; border:2px solid transparent;
+    width:15px; height:15px; border-radius:50%; border:2px solid transparent;
     cursor:pointer; padding:0; box-shadow:0 0 0 1px var(--rule);
   }
   .theme-dot.active{border-color:var(--ink)}
-  section{margin:0 0 40px}
+  .progress{margin-top:8px; font-size:12px; color:var(--sub); letter-spacing:.04em}
+  .swipe-hint{margin-top:4px; font-size:11px; color:var(--sub); opacity:.75}
+
+  #carousel{
+    display:flex; height:calc(100% - 106px); overflow-x:auto; overflow-y:hidden;
+    scroll-snap-type:x mandatory; scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
+  }
+  .panel{
+    flex:0 0 100vw; height:100%; overflow-y:auto; scroll-snap-align:start;
+    padding:36px 24px 80px;
+  }
+  .panel-inner{max-width:680px; margin:0 auto}
+  .panel .kicker{
+    font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;
+    font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--sub); margin:0 0 4px;
+  }
   h2.section-title{
     font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;
-    font-size:13px; letter-spacing:.08em; text-transform:uppercase;
+    font-size:15px; letter-spacing:.06em; text-transform:uppercase;
     color:var(--accent); border-bottom:1px solid var(--rule);
     padding-bottom:10px; margin:0 0 20px; font-weight:700;
   }
@@ -73,213 +90,236 @@
     background:var(--card); border:1px solid var(--rule); border-radius:8px;
     padding:16px 20px; margin:0 0 14px;
   }
-  .story h4{
-    margin:0 0 6px; font-size:16px; font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;
-  }
+  .story h4{margin:0 0 6px; font-size:16px; font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
   .story p{margin:0 0 10px}
   .story .link{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif; font-size:13px}
   table.stats{width:100%; border-collapse:collapse; font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif; font-size:14px}
   table.stats th, table.stats td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--rule)}
   table.stats th{color:var(--sub); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.04em}
   hr.rule{border:none; border-top:1px solid var(--rule); margin:20px 0}
-  footer{text-align:center; font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif; color:var(--sub); font-size:12px; margin-top:60px}
+
+  .navbtn{
+    position:fixed; top:50%; transform:translateY(-50%); z-index:6;
+    width:40px; height:40px; border-radius:50%; border:1px solid var(--rule);
+    background:var(--card); color:var(--ink); font-size:18px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; opacity:.85;
+  }
+  .navbtn:hover{opacity:1}
+  .navbtn:disabled{opacity:.25; cursor:default}
+  #prevBtn{left:10px}
+  #nextBtn{right:10px}
+  .dots{
+    display:flex; gap:6px; justify-content:center; flex-wrap:wrap;
+    padding:8px 10px 10px; border-top:1px solid var(--rule); background:var(--bg);
+  }
+  .navdot{
+    width:8px; height:8px; border-radius:50%; border:none; padding:0;
+    background:var(--rule); cursor:pointer;
+  }
+  .navdot.active{background:var(--accent)}
+  footer.sitefoot{
+    text-align:center; font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;
+    color:var(--sub); font-size:11px; padding:14px 0 2px;
+  }
+  @media (max-width:600px){
+    .navbtn{width:34px; height:34px; font-size:15px}
+  }
 </style>
 </head>
 <body class="theme-parchment">
-<div class="wrap">
 
 <header class="masthead">
   <div class="eyebrow">Daily Briefing</div>
-  <h1>Sunday, August 30, 2026</h1>
-  <div class="loc">Rich Stitt · Tampa / Land O&rsquo;Lakes, FL</div>
+  <h1>Tuesday, September 1, 2026</h1>
+  <div class="loc">Rich Stitt &middot; Tampa / Land O&rsquo;Lakes, FL</div>
   <div class="theme-switch" id="themeSwitch">
     <button class="theme-dot active" data-theme="theme-parchment" style="background:#8a5a3c" title="Parchment" aria-label="Parchment theme"></button>
     <button class="theme-dot" data-theme="theme-navy" style="background:#d69a52" title="Ink Navy" aria-label="Ink Navy theme"></button>
     <button class="theme-dot" data-theme="theme-slate" style="background:#e0a978" title="Ember Slate" aria-label="Ember Slate theme"></button>
   </div>
+  <div class="progress ui"><span id="progressLabel">1 / 12</span> &middot; <span id="progressTitle">Welcome</span></div>
 </header>
 
-<section>
-  <h2 class="section-title">✝️ Bible Verses of the Day</h2>
-  <div class="quote-card">
-    <div class="who">Old Testament — Proverbs 16:9 (NIV)</div>
-    <blockquote>&ldquo;In their hearts humans plan their course, but the LORD establishes their steps.&rdquo;</blockquote>
-    <div class="src">🔗 <a href="https://www.bible.com/bible/111/PRO.16.NIV">Read Proverbs 16 — Bible.com</a></div>
-  </div>
-  <div class="quote-card">
-    <div class="who">New Testament — James 4:13&ndash;15 (NIV)</div>
-    <blockquote>&ldquo;Now listen, you who say, &lsquo;Today or tomorrow we will go to this or that city, spend a year there, carry on business and make money.&rsquo; Why, you do not even know what will happen tomorrow. What is your life? You are a mist that appears for a little while and then vanishes. Instead, you ought to say, &lsquo;If it is the Lord&rsquo;s will, we will live and do this or that.&rsquo;&rdquo;</blockquote>
-    <div class="src">🔗 <a href="https://www.bible.com/bible/111/JAS.4.NIV">Read James 4 — Bible.com</a></div>
-  </div>
-  <p class="note"><b>Connection:</b> Both passages puncture the illusion of certainty about tomorrow &mdash; Proverbs points to God&rsquo;s hand steering our steps, James warns against presuming we control the calendar at all.</p>
-</section>
+<button class="navbtn ui" id="prevBtn" aria-label="Previous section">&#8249;</button>
+<button class="navbtn ui" id="nextBtn" aria-label="Next section">&#8250;</button>
 
-<section>
-  <h2 class="section-title">✨ Motivational Quote</h2>
-  <div class="quote-card">
-    <div class="who">Huang Po</div>
-    <blockquote>&ldquo;There is only the one reality, neither to be realized nor attained.&rdquo;</blockquote>
-    <div class="src">&mdash; The Zen Teaching of Huang Po (tr. John Blofeld)</div>
+<div id="carousel">
+
+<section class="panel" data-title="Welcome">
+  <div class="panel-inner" style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center">
+    <div class="kicker">Today&rsquo;s Edition</div>
+    <h2 style="font-size:26px; margin:6px 0 10px">12 sections, swipe to read</h2>
+    <p style="color:var(--sub); max-width:420px">Scroll or swipe sideways &mdash; or use the arrows &mdash; to move through verses, a quote, poems, art, the news, and today&rsquo;s stats, one panel at a time.</p>
+    <div class="swipe-hint">&larr; scroll horizontally or use the arrow buttons &rarr;</div>
   </div>
 </section>
 
-<section>
-  <h2 class="section-title">📜 Daily Poems</h2>
+<section class="panel" data-title="Verses">
+<div class="panel-inner">
+  <h2 class="section-title">&#10013;&#65039; Bible Verses of the Day</h2>
+  <div class="quote-card">
+    <div class="who">Old Testament &mdash; Proverbs 2:6 (NIV)</div>
+    <blockquote>&ldquo;For the Lord gives wisdom; from his mouth come knowledge and understanding.&rdquo;</blockquote>
+    <div class="src">&#128279; <a href="https://www.bible.com/bible/111/PRO.2.NIV">Read Proverbs 2 &mdash; Bible.com</a></div>
+  </div>
+  <div class="quote-card">
+    <div class="who">New Testament &mdash; 2 Peter 1:3 (NIV)</div>
+    <blockquote>&ldquo;His divine power has given us everything we need for a godly life through our knowledge of him who called us by his own glory and goodness.&rdquo;</blockquote>
+    <div class="src">&#128279; <a href="https://www.bible.com/bible/111/2PE.1.NIV">Read 2 Peter 1 &mdash; Bible.com</a></div>
+  </div>
+  <p class="note"><b>Connection:</b> Proverbs traces wisdom back to God&rsquo;s own mouth; Peter traces godly living back to knowledge of God&rsquo;s character &mdash; both refuse to let &ldquo;knowledge&rdquo; and &ldquo;knowing God&rdquo; come apart.</p>
+</div>
+</section>
+
+<section class="panel" data-title="Quote">
+<div class="panel-inner">
+  <h2 class="section-title">&#10024; Motivational Quote</h2>
+  <div class="quote-card">
+    <div class="who">Zhuangzi</div>
+    <blockquote>&ldquo;To a mind that is still, the entire universe surrenders.&rdquo;</blockquote>
+    <div class="src">&mdash; attributed, Taoist tradition</div>
+  </div>
+</div>
+</section>
+
+<section class="panel" data-title="Poems">
+<div class="panel-inner">
+  <h2 class="section-title">&#128220; Daily Poems</h2>
   <div class="art-block">
-    <h3>Poem I &mdash; <em>Archaic Torso of Apollo</em></h3>
-    <div class="meta">Rainer Maria Rilke &middot; 🔗 <a href="https://www.poetryfoundation.org/poems/1679348/archaic-torso-of-apollo">Poetry Foundation</a></div>
-    <p>A meditation on a headless, armless classical sculpture that argues fragmentation can intensify rather than diminish artistic power. Rilke describes the stone as inwardly luminous, &ldquo;like a lamp,&rdquo; suggesting what&rsquo;s missing lets the remaining form radiate more forcefully than a complete figure could. The poem moves from quiet appreciation to a startling command, treating the ruined statue as a mirror that confronts the viewer rather than a passive relic.</p>
-    <p class="note"><b>Why today?</b> A Sunday poem about being addressed by something larger than yourself &mdash; fitting alongside verses about surrendering the illusion of control.</p>
+    <h3>Poem I &mdash; <em>The morns are meeker than they were &ndash;</em></h3>
+    <div class="meta">Emily Dickinson &middot; &#128279; <a href="https://www.poetryfoundation.org/poems/56590/the-morns-are-meeker-than-they-were-32">Poetry Foundation</a></div>
+    <p>Dickinson tracks autumn&rsquo;s arrival through softened mornings, browning nuts, plumping berries, and maples pulling on a &ldquo;gayer scarf&rdquo; as the fields dress in scarlet. She answers nature&rsquo;s seasonal costume change by deciding to put on a trinket of her own, lest she seem old-fashioned &mdash; a wry, self-aware turn linking vanity to the natural world&rsquo;s own show of color.</p>
+    <p class="note"><b>Why today?</b> Written for exactly this pivot of the calendar &mdash; the first of September, when mornings genuinely do turn meeker.</p>
   </div>
   <hr class="rule">
   <div class="art-block">
-    <h3>Poem II &mdash; <em>won&rsquo;t you celebrate with me</em></h3>
-    <div class="meta">Lucille Clifton &middot; 🔗 <a href="https://poets.org/poem/wont-you-celebrate-me">poets.org</a></div>
-    <p>Clifton describes a life built without a template &mdash; shaped, in her words, at the meeting point of &ldquo;starshine and clay&rdquo; &mdash; and asks the reader to recognize that survival itself, self-authored and unprecedented, is worth celebrating. The tone is intimate and conversational even as it makes a quietly political claim, using plain, lowercase language to invite solidarity rather than pity.</p>
-    <p class="note"><b>Pairing:</b> Where Rilke finds meaning in what a broken form still radiates, Clifton finds meaning in a life assembled without a model to follow &mdash; two different takes on making something whole out of incompleteness.</p>
+    <h3>Poem II &mdash; <em>To Autumn</em></h3>
+    <div class="meta">John Keats &middot; &#128279; <a href="https://www.poetryfoundation.org/poems/44484/to-autumn">Poetry Foundation</a></div>
+    <p>Keats&rsquo;s three stanzas move from harvest abundance through Autumn personified &mdash; dozing on a granary floor, watching a cider-press &mdash; to a closing hymn of the season&rsquo;s own sounds: gnats in a wailing choir, lambs bleating, swallows gathering in the sky. Against &ldquo;Where are the songs of spring?&rdquo; the poem insists autumn has its own music, distinct from and not lesser than spring&rsquo;s.</p>
+    <p class="note"><b>Pairing:</b> Dickinson&rsquo;s autumn is intimate and domestic; Keats&rsquo;s is expansive and elemental &mdash; together they frame the turn from summer at both scales.</p>
   </div>
+</div>
 </section>
 
-<section>
-  <h2 class="section-title">🎨 Art of the Day</h2>
-  <div class="quote-card">
-    <div class="who">Eileen Agar</div>
-    <blockquote>&ldquo;One day I was an artist exploring highly personal combinations of form and content, and the next I was calmly informed I was a Surrealist!&rdquo;</blockquote>
-  </div>
+<section class="panel" data-title="Art">
+<div class="panel-inner">
+  <h2 class="section-title">&#127912; Art of the Day</h2>
   <div class="art-block">
-    <h3>Gherardo Cibo &middot; <em>Coastal Landscape</em> (1512&ndash;1600)</h3>
-    <div class="meta">🔗 <a href="https://www.metmuseum.org/art/collection/search/341294">View at The Met</a> &middot; Pen and brown ink &middot; Public Domain</div>
-    <p>A 16th-century Italian herbalist-draftsman&rsquo;s coastal scene, drawn with the quick, notational line of a working naturalist rather than a court painter &mdash; landscape as field notes.</p>
+    <h3>Abram Arkhipov &middot; <em>Ivan Rodin</em> (1928)</h3>
+    <div class="meta">&#128279; <a href="https://www.metmuseum.org/art/collection/search/435586">View at The Met</a> &middot; Oil on canvas</div>
+    <p>Arkhipov, a leading figure of the Peredvizhniki (Wanderers) and later Russian Socialist Realism, paints a plain, direct portrait of a working man &mdash; the school&rsquo;s signature commitment to unvarnished depictions of ordinary Russian life over academic idealism.</p>
   </div>
   <hr class="rule">
   <div class="art-block">
-    <h3>Eileen Agar &middot; <em>Untitled Self-Portrait</em> (c. 1949)</h3>
-    <div class="meta">🔗 <a href="https://www.metmuseum.org/art/collection/search/909908">View at The Met</a> &middot; Oil on board &middot; &copy; the artist&rsquo;s estate</div>
-    <p>Agar, a pioneering British Surrealist, folds her own likeness into the movement&rsquo;s fascination with transformation and disguise &mdash; a face that reads as both self-portrait and invented persona.</p>
+    <h3>Grete Stern &middot; <em>Sue&ntilde;o No. 1: Art&iacute;culos el&eacute;ctricos para el hogar</em> (1949)</h3>
+    <div class="meta">&#128279; <a href="https://www.metmuseum.org/art/collection/search/301888">View at The Met</a> &middot; Gelatin silver print (photomontage)</div>
+    <p>Part of Stern&rsquo;s <em>Sue&ntilde;os</em> (Dreams) series made for an Argentine women&rsquo;s magazine, this photomontage stages a woman&rsquo;s hands emerging among household lamps and appliances &mdash; a quietly feminist surrealism turning readers&rsquo; own analyzed dreams into images of domestic life as faintly uncanny.</p>
   </div>
+</div>
 </section>
 
-<section>
-  <h2 class="section-title">📰 US National News &amp; Politics</h2>
+<section class="panel" data-title="US News">
+<div class="panel-inner">
+  <h2 class="section-title">&#128240; US National News &amp; Politics</h2>
   <div class="story">
-    <h4>Dolly Parton mourned across the nation</h4>
-    <p>The country music legend and philanthropist died this week, prompting tributes to her musical legacy and her wide-ranging charitable giving, including funding tied to the Moderna COVID-19 vaccine effort.</p>
-    <div class="link">🔗 <a href="https://www.npr.org/sections/national/">NPR</a></div>
+    <h4>Senate funding deal averts shutdown ahead of midterms</h4>
+    <p>The Senate passed a short-term funding bill in early August to keep the government open through the midterm election season, though the deal has since reopened a rift among Senate Democrats over whether it conceded too much.</p>
+    <div class="link">&#128279; <a href="https://www.nbcnews.com/politics/congress/senate-leaders-reach-deal-avert-shutdown-2026-elections-rcna590564">NBC News</a></div>
   </div>
   <div class="story">
-    <h4>Purple Heart veteran pardoned</h4>
-    <p>Sae Joon Park, who had self-deported after facing removal orders tied to decades-old convictions, was pardoned by New York&rsquo;s governor in recognition of his record of rehabilitation.</p>
-    <div class="link">🔗 <a href="https://www.npr.org/sections/national/">NPR</a></div>
+    <h4>Labor Day travel set to be pricier than 2025</h4>
+    <p>AAA&rsquo;s Labor Day 2026 forecast puts average round-trip domestic airfare near $750 (up 2% year-over-year), with hotel bookings up 9% domestically and 12% internationally; the heaviest road congestion is expected Thursday through Monday of the holiday weekend (Sept. 7).</p>
+    <div class="link">&#128279; <a href="https://fox11online.com/news/state/labor-day-2026-aaa-travel-forecast-busiest-road-times-highway-air-travel-plane-ticket-prices-gasoline-destinations">Fox11 / AAA forecast</a></div>
   </div>
-  <div class="story">
-    <h4>WNBA team brings in security specialists</h4>
-    <p>Amid rising threats and harassment aimed at players, one WNBA franchise has partnered with extremism and security experts to strengthen player safety measures.</p>
-    <div class="link">🔗 <a href="https://www.npr.org/sections/national/">NPR</a></div>
-  </div>
+</div>
 </section>
 
-<section>
-  <h2 class="section-title">🌍 International</h2>
+<section class="panel" data-title="World">
+<div class="panel-inner">
+  <h2 class="section-title">&#127757; International</h2>
   <div class="story">
-    <h4>Catastrophic floods in Nepal and Tibet</h4>
-    <p>Flash floods triggered by a glacial collapse have killed more than 670 people across Nepal and Tibet, with over 3,000 still missing, including roughly 90 Americans; families are pressing for international search assistance.</p>
-    <div class="link">🔗 <a href="https://www.npr.org/sections/world/">NPR</a></div>
+    <h4>Zelenskyy sees Gaza ceasefire as momentum toward ending the Russia-Ukraine war</h4>
+    <p>Ukrainian President Volodymyr Zelenskyy congratulated the Trump administration on the Gaza ceasefire, framing it as a hopeful sign that similar diplomatic pressure could produce a Trump-Putin meeting and progress toward ending the war in Ukraine.</p>
+    <div class="link">&#128279; <a href="https://www.cbsnews.com/video/zelenskyy-congratulates-trump-says-gaza-ceasefire-is-momentum-to-end-russia-ukraine-war">CBS News</a></div>
   </div>
-  <div class="story">
-    <h4>Deadly Russian strike near Kyiv</h4>
-    <p>A Russian drone attack killed 37 people in one of the year&rsquo;s deadliest single strikes, part of 72 hours of intensified drone assaults across Ukraine.</p>
-    <div class="link">🔗 <a href="https://www.npr.org/sections/world/">NPR</a></div>
-  </div>
-  <div class="story">
-    <h4>Norway&rsquo;s King Harald V dies at 89</h4>
-    <p>Harald V, who survived Nazi occupation as a child and later broke royal tradition by marrying a commoner, has died; his son now reigns as King Haakon VIII.</p>
-    <div class="link">🔗 <a href="https://www.npr.org/sections/world/">NPR</a></div>
-  </div>
+</div>
 </section>
 
-<section>
-  <h2 class="section-title">🌴 Local &mdash; Tampa Bay / Pasco / Land O&rsquo; Lakes</h2>
+<section class="panel" data-title="Local">
+<div class="panel-inner">
+  <h2 class="section-title">&#127796; Local &mdash; Tampa Bay / Pasco / Land O&rsquo; Lakes</h2>
   <div class="story">
-    <h4>Angeline Academy pickup line delays</h4>
-    <p>Families picking up students from Angeline Academy have reported significant delays in the school&rsquo;s dismissal procedure, with extended wait times becoming a recurring community complaint.</p>
-    <div class="link">🔗 <a href="https://patch.com/florida/landolakes/around-town">Patch &mdash; Land O&rsquo; Lakes</a></div>
+    <h4>Pasco secures largest land purchase in county history</h4>
+    <p>Pasco County closed on nearly 1,900 acres of the 4G Ranch in Land O&rsquo; Lakes for $68 million, its biggest conservation acquisition ever, permanently protecting the tract off State Road 52 from development.</p>
+    <div class="link">&#128279; <a href="https://www.tampabay.com/news/pasco/2026/06/08/land-o-lakes-4g-ranch-conservation-conner-preserve/">Tampa Bay Times</a></div>
   </div>
   <div class="story">
-    <h4>Land O&rsquo; Lakes Business Exchange</h4>
-    <p>A local business networking event is being promoted for early September alongside a busy community calendar of fall activities.</p>
-    <div class="link">🔗 <a href="https://patch.com/florida/landolakes/around-town">Patch &mdash; Land O&rsquo; Lakes</a></div>
+    <h4>Pasco schools head into the year with fewer vacancies</h4>
+    <p>Pasco County Schools reported job vacancies down and staffing momentum high heading into the first day of classes, a contrast with recent years&rsquo; staffing crunches.</p>
+    <div class="link">&#128279; <a href="https://www.tampabay.com/news/education/2026/08/12/job-vacancies-down-momentum-high-pasco-schools-prepare-first-day/">Tampa Bay Times</a></div>
   </div>
-  <div class="story">
-    <h4>Basic Vegetable Gardening class</h4>
-    <p>A community gardening class kicks off the September calendar in Land O&rsquo; Lakes, alongside a slate of youth volleyball and football games.</p>
-    <div class="link">🔗 <a href="https://patch.com/florida/landolakes/around-town">Patch &mdash; Land O&rsquo; Lakes</a></div>
-  </div>
+</div>
 </section>
 
-<section>
-  <h2 class="section-title">🔬 Science &amp; Discoveries</h2>
+<section class="panel" data-title="Science">
+<div class="panel-inner">
+  <h2 class="section-title">&#128300; Science &amp; Discoveries</h2>
   <div class="story">
-    <h4>Keto diet cut liver fat by 67% in clinical trial</h4>
-    <p>A ketogenic diet outperformed Mediterranean and low-fat diets on metabolic health markers in a new trial, even though all three groups lost similar amounts of weight.</p>
-    <div class="link">🔗 <a href="https://www.sciencedaily.com/news/top/science/">ScienceDaily</a></div>
+    <h4>NASA&rsquo;s Roman Space Telescope launches</h4>
+    <p>The Nancy Grace Roman Space Telescope launched aboard a SpaceX Falcon Heavy toward the L2 point, where it will survey the sky roughly 1,000 times faster than Hubble, hunting dark matter, dark energy, and exoplanets while beaming back 1.4 terabytes of data daily. First images are expected in early 2027.</p>
+    <div class="link">&#128279; <a href="https://www.sciencedaily.com/releases/2026/08/260831035213.htm">ScienceDaily</a></div>
   </div>
-  <div class="story">
-    <h4>Dogs may hold clues to human longevity</h4>
-    <p>The Dog Aging Project found that blood molecule patterns linked to lifespan look remarkably similar between dogs and humans, opening a new angle on aging research.</p>
-    <div class="link">🔗 <a href="https://www.sciencedaily.com/news/top/science/">ScienceDaily</a></div>
-  </div>
-  <div class="story">
-    <h4>The universe&rsquo;s acceleration remains a mystery</h4>
-    <p>A major new analysis pushes back on recent claims that cosmic expansion is slowing, finding dark energy&rsquo;s role in accelerating the universe still holds up under scrutiny.</p>
-    <div class="link">🔗 <a href="https://www.sciencedaily.com/news/top/science/">ScienceDaily</a></div>
-  </div>
+</div>
 </section>
 
-<section>
-  <h2 class="section-title">🧠 Psychology &amp; Behavior</h2>
+<section class="panel" data-title="Psychology">
+<div class="panel-inner">
+  <h2 class="section-title">&#129504; Psychology &amp; Behavior</h2>
   <div class="story">
-    <h4>Childhood trauma may leave a &ldquo;scar&rdquo; in brain cells</h4>
-    <p>New research finds early-life stress physically alters how DNA is packaged in the brain, potentially making stress-related genes easier to activate years later.</p>
-    <div class="link">🔗 <a href="https://www.sciencedaily.com/news/mind_brain/psychology/">ScienceDaily</a></div>
+    <h4>HEPA air purifiers linked to sharper thinking within a month</h4>
+    <p>Adults over 40 who ran a HEPA air purifier at home for one month showed roughly 12% faster executive-function performance than a control group, suggesting indoor air quality may have a measurable, fast-acting cognitive effect.</p>
+    <div class="link">&#128279; <a href="https://www.sciencedaily.com/news/mind_brain/psychology/">ScienceDaily</a></div>
   </div>
   <div class="story">
-    <h4>Depression may slow the birth of new neurons</h4>
-    <p>Adults with depression show disrupted neuron growth in the hippocampus, a change that could weaken the brain&rsquo;s ability to tell new experiences apart from painful memories.</p>
-    <div class="link">🔗 <a href="https://www.sciencedaily.com/news/mind_brain/psychology/">ScienceDaily</a></div>
+    <h4>Sleep&rsquo;s cognitive &ldquo;sweet spot&rdquo; is narrower than expected</h4>
+    <p>An analysis using 23 biological aging clocks found the least accelerated aging among adults sleeping 6.4&ndash;7.8 hours nightly, with both shorter and longer sleep linked to faster biological aging.</p>
+    <div class="link">&#128279; <a href="https://www.sciencedaily.com/news/mind_brain/psychology/">ScienceDaily</a></div>
   </div>
-  <div class="story">
-    <h4>A therapy that &ldquo;rewrites&rdquo; childhood memories eases fear of failure</h4>
-    <p>Young adults who revisited old memories of childhood criticism through a guided therapeutic technique showed that fear-of-failure patterns can be more malleable than assumed.</p>
-    <div class="link">🔗 <a href="https://www.sciencedaily.com/news/mind_brain/psychology/">ScienceDaily</a></div>
-  </div>
+</div>
 </section>
 
-<section>
-  <h2 class="section-title">🏛️ History &amp; Art</h2>
+<section class="panel" data-title="History">
+<div class="panel-inner">
+  <h2 class="section-title">&#127963;&#65039; History &amp; Art</h2>
   <div class="story">
-    <h4>$1.98M in Bronze Age gold stolen from Spanish museum</h4>
-    <p>Thieves raided the Treasure of Villena collection in Spain in a heist that took roughly four minutes, making off with priceless Bronze Age gold pieces in one of the year&rsquo;s most audacious museum thefts.</p>
-    <div class="link">🔗 <a href="https://www.artnews.com/art-news/news/gold-pieces-stolen-from-the-treasure-of-villena-1234796080/">ARTnews</a></div>
+    <h4>Leopard-riding figure unearthed at Karahantepe, Turkey</h4>
+    <p>Archaeologists excavating Karahantepe &mdash; part of the G&ouml;bekli Tepe cluster of Neolithic sites &mdash; uncovered an unusual sculpture depicting a human figure seated atop a leopard, adding to the site&rsquo;s growing catalog of enigmatic early monumental imagery.</p>
+    <div class="link">&#128279; <a href="https://archaeology.org/news/">Archaeology Magazine</a></div>
   </div>
+</div>
 </section>
 
-<section>
-  <h2 class="section-title">⚡ Quick Stats</h2>
+<section class="panel" data-title="Stats">
+<div class="panel-inner">
+  <h2 class="section-title">&#9889; Quick Stats</h2>
   <table class="stats">
     <tr><th>Topic</th><th>Detail</th></tr>
-    <tr><td>Nepal/Tibet floods</td><td>670+ dead, 3,000+ missing, ~90 Americans among the missing</td></tr>
-    <tr><td>Kyiv strike</td><td>37 killed in a single Russian drone attack</td></tr>
-    <tr><td>Villena heist</td><td>$1.98M in Bronze Age gold stolen in ~4 minutes</td></tr>
-    <tr><td>Keto trial</td><td>67% reduction in liver fat vs. other diets</td></tr>
-    <tr><td>Melatonin study</td><td>90% higher heart failure risk with long-term use</td></tr>
-    <tr><td>Norway</td><td>King Harald V dies at 89; son becomes King Haakon VIII</td></tr>
-    <tr><td>Iceland</td><td>EU membership referendum results too close to call overnight</td></tr>
+    <tr><td>Pasco land deal</td><td>1,900 acres of 4G Ranch preserved for $68M &mdash; county&rsquo;s largest-ever purchase</td></tr>
+    <tr><td>Roman Space Telescope</td><td>Surveys ~1,000x faster than Hubble; 1.4 TB of data/day; first images early 2027</td></tr>
+    <tr><td>HEPA air purifiers</td><td>~12% faster executive function in adults 40+ after 1 month of use</td></tr>
+    <tr><td>Sleep sweet spot</td><td>6.4&ndash;7.8 hrs/night tied to slowest biological aging across 23 aging clocks</td></tr>
+    <tr><td>Labor Day 2026</td><td>Falls Sept. 7 &mdash; one of the latest possible dates; avg. round-trip airfare ~$750</td></tr>
+    <tr><td>Day of year</td><td>Today is day 244 of 2026 (122 remain)</td></tr>
   </table>
+</div>
 </section>
 
-<footer>Generated by Claude &middot; updates daily &middot; <a href="https://github.com/fairweatherpm/daily-brief">source</a></footer>
-
 </div>
+
+<div class="dots ui" id="dotsRow"></div>
+
+<footer class="sitefoot">Generated by Claude &middot; updates daily &middot; <a href="https://github.com/fairweatherpm/daily-brief">source</a></footer>
+
 <script>
   var THEME_CLASSES = ["theme-parchment", "theme-navy", "theme-slate"];
   function setTheme(themeClass){
@@ -297,6 +337,57 @@
     var saved = localStorage.getItem("dailyBriefTheme");
     if (saved && THEME_CLASSES.indexOf(saved) !== -1) setTheme(saved);
   } catch (e) {}
+
+  // Horizontal scroll-snap carousel
+  var carousel = document.getElementById("carousel");
+  var panels = Array.prototype.slice.call(document.querySelectorAll(".panel"));
+  var dotsRow = document.getElementById("dotsRow");
+  var progressLabel = document.getElementById("progressLabel");
+  var progressTitle = document.getElementById("progressTitle");
+  var prevBtn = document.getElementById("prevBtn");
+  var nextBtn = document.getElementById("nextBtn");
+  var current = 0;
+
+  panels.forEach(function(panel, i){
+    var dot = document.createElement("button");
+    dot.className = "navdot" + (i === 0 ? " active" : "");
+    dot.setAttribute("aria-label", "Go to " + panel.dataset.title);
+    dot.addEventListener("click", function(){ goTo(i); });
+    dotsRow.appendChild(dot);
+  });
+  var dots = Array.prototype.slice.call(dotsRow.children);
+
+  function updateUI(i){
+    current = i;
+    progressLabel.textContent = (i + 1) + " / " + panels.length;
+    progressTitle.textContent = panels[i].dataset.title;
+    dots.forEach(function(d, di){ d.classList.toggle("active", di === i); });
+    prevBtn.disabled = (i === 0);
+    nextBtn.disabled = (i === panels.length - 1);
+  }
+
+  function goTo(i){
+    i = Math.max(0, Math.min(panels.length - 1, i));
+    panels[i].scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+  }
+
+  prevBtn.addEventListener("click", function(){ goTo(current - 1); });
+  nextBtn.addEventListener("click", function(){ goTo(current + 1); });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "ArrowRight") goTo(current + 1);
+    if (e.key === "ArrowLeft") goTo(current - 1);
+  });
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting && entry.intersectionRatio > 0.6){
+        updateUI(panels.indexOf(entry.target));
+      }
+    });
+  }, { root: carousel, threshold: [0.6] });
+  panels.forEach(function(p){ io.observe(p); });
+
+  updateUI(0);
 </script>
 </body>
 </html>
